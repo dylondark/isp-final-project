@@ -24,60 +24,34 @@ body {
 .massive-text {
   font-size: 14rem; /* Adjust the size as needed */
   font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow to make text pop */
+  text-align: center;
+  color: #f0f0f0; /* Set text color to white */
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 0.3),
+    0 0 6px rgba(255, 255, 255, 0.2),
+    0 0 8px rgba(255, 255, 255, 0.15),
+    0 0 10px rgba(255, 255, 255, 0.1);
 }
 
-/* Background rotation with smooth fade transitions */
-@keyframes backgroundRotation1 {
-  0%, 15% {
-    opacity: 0;
-  }
-  15%, 30% {
-    opacity: 1;
-  }
-  30%, 35% {
-    opacity: 0.5; /* Fade slightly to black */
-  }
-  35%, 100% {
-    opacity: 0;
-  }
-}
-
-@keyframes backgroundRotation2 {
-  0%, 35% {
-    opacity: 0;
-  }
-  35%, 65% {
-    opacity: 1;
-  }
-  65%, 70% {
-    opacity: 0.5; /* Fade slightly to black */
-  }
-  70%, 100% {
-    opacity: 0;
-  }
-}
-
-@keyframes backgroundRotation3 {
-  0%, 70% {
-    opacity: 0;
-  }
-  70%, 100% {
-    opacity: 1;
-  }
-  95%, 100% {
-    opacity: 0.2; /* Fade darker to transition back to the beginning */
-  }
-}
-
+/* Remove z-index from .background-rotation */
 .background-rotation {
   position: relative;
-  z-index: -1;
 }
 
-.background-rotation::before,
-.background-rotation::after,
-.background-rotation div:nth-child(3) {
+/* Container for background images */
+.background-images {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Place behind the content */
+  overflow: hidden;
+}
+
+/* Background images using pseudo-elements */
+.background-images::before,
+.background-images::after {
   content: "";
   position: absolute;
   top: 0;
@@ -86,23 +60,51 @@ body {
   height: 100%;
   background-size: cover;
   background-position: center;
-  transition: opacity 0.5s ease-in-out; /* Faster fade transition */
-  z-index: -1;
+  opacity: 0;
+  animation-duration: 30s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
 }
 
-.background-rotation::before {
-  background-image: url('/images/FBI_Image_1.jpg'); /* Replace with your image path */
-  animation: backgroundRotation1 30s infinite;
+.background-images::before {
+  background-image: url('/images/FBI_Image_1.jpg');
+  animation-name: backgroundRotation1;
 }
 
-.background-rotation::after {
-  background-image: url('/images/FBI_Image_2.jpg'); /* Replace with your image path */
-  animation: backgroundRotation2 30s infinite;
+.background-images::after {
+  background-image: url('/images/FBI_Image_2.jpg');
+  animation-name: backgroundRotation2;
 }
 
-.background-rotation div:nth-child(3) {
-  background-image: url('/images/FBI_Image_3.jpg'); /* Replace with your image path */
-  animation: backgroundRotation3 30s infinite;
+/* Additional background image */
+.background-image-3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/FBI_Image_3.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  animation: backgroundRotation3 30s infinite ease-in-out;
+}
+
+/* Keyframe animations */
+@keyframes backgroundRotation1 {
+  0%, 30% { opacity: 1; }
+  35%, 100% { opacity: 0; }
+}
+
+@keyframes backgroundRotation2 {
+  0%, 35% { opacity: 0; }
+  40%, 65% { opacity: 1; }
+  70%, 100% { opacity: 0; }
+}
+
+@keyframes backgroundRotation3 {
+  0%, 70% { opacity: 0; }
+  75%, 100% { opacity: 1; }
 }
 
 /* Overlay to create a film effect */
@@ -112,6 +114,6 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.75); /* Adjust the opacity as needed */
-  z-index: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 0; /* Below content, above background */
 }
