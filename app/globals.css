@@ -22,26 +22,51 @@ body {
 
 /* Custom class for massive text */
 .massive-text {
-  font-size: 13rem; /* Adjust the size as needed */
+  font-size: 14rem; /* Adjust the size as needed */
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow to make text pop */
 }
 
 /* Background rotation with smooth fade transitions */
-@keyframes backgroundRotation {
-  0%, 45% {
-    opacity: 1;
-    background-image: url('/images/FBI_Image_1.jpg'); /* Replace with your image path */
-  }
-  45%, 50% {
+@keyframes backgroundRotation1 {
+  0%, 15% {
     opacity: 0;
   }
-  50%, 95% {
+  15%, 30% {
     opacity: 1;
-    background-image: url('/images/FBI_Image_2.jpg'); /* Replace with your image path */
+  }
+  30%, 35% {
+    opacity: 0.5; /* Fade slightly to black */
+  }
+  35%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes backgroundRotation2 {
+  0%, 35% {
+    opacity: 0;
+  }
+  35%, 65% {
+    opacity: 1;
+  }
+  65%, 70% {
+    opacity: 0.5; /* Fade slightly to black */
+  }
+  70%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes backgroundRotation3 {
+  0%, 70% {
+    opacity: 0;
+  }
+  70%, 100% {
+    opacity: 1;
   }
   95%, 100% {
-    opacity: 0;
+    opacity: 0.2; /* Fade darker to transition back to the beginning */
   }
 }
 
@@ -50,18 +75,34 @@ body {
   z-index: -1;
 }
 
-.background-rotation::before {
+.background-rotation::before,
+.background-rotation::after,
+.background-rotation div:nth-child(3) {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  animation: backgroundRotation 20s infinite;
   background-size: cover;
   background-position: center;
   transition: opacity 0.5s ease-in-out; /* Faster fade transition */
   z-index: -1;
+}
+
+.background-rotation::before {
+  background-image: url('/images/FBI_Image_1.jpg'); /* Replace with your image path */
+  animation: backgroundRotation1 30s infinite;
+}
+
+.background-rotation::after {
+  background-image: url('/images/FBI_Image_2.jpg'); /* Replace with your image path */
+  animation: backgroundRotation2 30s infinite;
+}
+
+.background-rotation div:nth-child(3) {
+  background-image: url('/images/FBI_Image_3.jpg'); /* Replace with your image path */
+  animation: backgroundRotation3 30s infinite;
 }
 
 /* Overlay to create a film effect */
