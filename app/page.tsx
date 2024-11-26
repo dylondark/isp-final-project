@@ -25,7 +25,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen p-8">
+    <div className="relative flex flex-col items-center justify-center min-h-screen p-8" suppressHydrationWarning>
       {/* Background Images */}
       <div className="background-images">
         <div className="background-image-3"></div>
@@ -37,7 +37,7 @@ export default function Home() {
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 100%)',
+              "radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 100%)",
             zIndex: 1,
           }}
         ></div>
