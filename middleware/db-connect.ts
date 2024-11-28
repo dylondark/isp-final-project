@@ -1,41 +1,50 @@
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import axios from "axios";
-import { storeDocument } from "@/mongoose/fbi/services";
-import { FBIInterface } from "@/mongoose/fbi/interface";
+import { storeDocument } from "../mongoose/fbi/services";
 
-async function fetchDataFromAPI(): Promise<FBIInterface[]> {
-    try {
-        const response = await axios.get('https://api.fbi.gov/wanted/v1/list');
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return [];
-    }
+async function dbConnect(): Promise<any | String> {
+  const mongoServer = await MongoMemoryServer.create();
+  const MONGOIO_URI = mongoServer.getUri();
+  await mongoose.disconnect();
+  await mongoose.connect(MONGOIO_URI, {
+    dbName: "FBI"
+  });
+
+  await storeDocument({
+    url: "https://example.com/1",
+    subjects: ["subject1", "subject2"],
+    title: "Title 1",
+    description: "Description 1",
+    age_range: "20-30",
+    sex: "Male",
+    hair: "Brown",
+    weight: "70kg",
+    image: "https://example.com/image1.jpg"
+  });
+  await storeDocument({
+    url: "https://example.com/2",
+    subjects: ["subject3", "subject4"],
+    title: "Title 2",
+    description: "Description 2",
+    age_range: "30-40",
+    sex: "Female",
+    hair: "Blonde",
+    weight: "60kg",
+    image: "https://example.com/image2.jpg"
+  });
+  await storeDocument({
+    url: "https://example.com/3",
+    subjects: ["subject5", "subject6"],
+    title: "Title 3",
+    description: "Description 3",
+    age_range: "40-50",
+    sex: "Male",
+    hair: "Black",
+    weight: "80kg",
+    image: "https://example.com/image3.jpg"
+  });
 }
 
-async function dbConnect(): Promise<void> {
-    try {
-        // Setup MongoDB Memory Server
-        const mongoServer = await MongoMemoryServer.create();
-        const MONGOIO_URI = mongoServer.getUri();
-        
-        // Connect to database
-        await mongoose.disconnect();
-        await mongoose.connect(MONGOIO_URI, {
-            dbName: "FBI"
-        });
 
-        // Fetch and load data
-        const data = await fetchDataFromAPI();
-        for (const item of data) {
-            await storeDocument(item);
-        }
-        console.log('Data loaded successfully');
-    } catch (error) {
-        console.error('Database connection error:', error);
-        throw error;
-    }
-}
 
 export default dbConnect;

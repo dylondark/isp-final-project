@@ -1,7 +1,7 @@
-import { FBIModel } from "./model";
-import { FBIInterface } from "./interface";
+import FBIModel  from "./model";
+import { FbiInterface } from "./interface";
 
-export async function storeDocument(doc: FBIInterface): Promise<boolean> {
+export async function storeDocument(doc: FbiInterface): Promise<boolean> {
     try {
         await FBIModel.create(doc);
     } catch (error) {
@@ -12,7 +12,7 @@ export async function storeDocument(doc: FBIInterface): Promise<boolean> {
 
 export async function findByTitle(
     paramTitle: string
-): Promise<Array<FBIInterface> | null> {
+): Promise<Array<FbiInterface> | null> {
     try {
         return await FBIModel.findOne({title: paramTitle});
     } catch (err) {
@@ -23,7 +23,7 @@ export async function findByTitle(
 
 export async function updateByTitle(
     paramTitle: string,
-    newData: FBIInterface
+    newData: FbiInterface
 ): Promise<boolean> {
     try {
         await FBIModel.updateOne({zip: paramTitle}, newData);

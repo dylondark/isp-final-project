@@ -1,5 +1,6 @@
 import mongoose, { model } from "mongoose";
-import { FBIInterface } from "./interface";
-import { FBISchema } from "./schema";
+import { FbiInterface } from "./interface";
+import { FbiSchema } from "./schema";
 
-export const FBIModel = model<FBIInterface>("FBI", FBISchema);
+export default mongoose.models.Fbi ||
+    model<FbiInterface>("Fbi", FbiSchema);

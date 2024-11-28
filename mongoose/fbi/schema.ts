@@ -1,41 +1,41 @@
 import { Schema } from "mongoose";
-import { FBIInterface } from "./interface";
+import { FbiInterface } from "./interface";
 
-export const FBISchema = new Schema<FBIInterface>({
+export const FbiSchema = new Schema<FbiInterface>({
     url: {
-        type: String,
+        type: "String",
         required: true,
     },
     subjects: {
-        type: [String],
+        type: ["String"],
         required: true,
     },
     title: {
-        type: String,
+        type: "String",
         required: true,
     },
     description: {
-        type: String,
+        type: "String",
         required: true,
     },
     age_range: {
-        type: String,
+        type: "String",
         required: true,
     },
     sex: {
-        type: String,
+        type: "String",
         required: true,
     },
     hair: {
-        type: String,
+        type: "String",
         required: true,
     },
     weight: {
-        type: String,
+        type: "String",
         required: true,
     },
     image: {
-        type: String,
+        type: "String",
         required: true,
     },
 });
