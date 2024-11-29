@@ -5,19 +5,19 @@ export const typeDefs = gql`
     uid: String
     title: String
     subjects: [String]
-    descriptions: [Description]
+    description: String
+    age_min: Int
+    age_max: Int
+    sex: String
+    hair_raw: String
+    weight: String
     images: [Image]
     reward_text: String
     aliases: [String]
-    # Add other fields as needed
-  }
-
-  type Description {
-    language: String
-    description: String
   }
 
   type Image {
+    original: String
     large: String
     thumb: String
   }
