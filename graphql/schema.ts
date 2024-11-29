@@ -1,36 +1,29 @@
 import { gql } from 'graphql-tag';
 
 export const typeDefs = gql`
+  type Fbi {
+    uid: String
+    title: String
+    subjects: [String]
+    descriptions: [Description]
+    images: [Image]
+    reward_text: String
+    aliases: [String]
+    # Add other fields as needed
+  }
 
-    type Fbi {
-        url: String!
-        subjects: [String!]!
-        title: String!
-        description: String!
-        age_range: String!
-        sex: String!
-        hair: String!
-        weight: String!
-        image: String!
-    }
+  type Description {
+    language: String
+    description: String
+  }
 
-    input FbiInput {
-        url: String!
-        subjects: [String!]!
-        title: String!
-        description: String!
-        age_range: String!
-        sex: String!
-        hair: String!
-        weight: String!
-        image: String!
-    }
+  type Image {
+    large: String
+    thumb: String
+  }
 
-    type Query {
-        Fbi(title: String!): Fbi
-    }
-
-    type Mutation {
-        Fbi(data: FbiInput): Fbi
-    }
+  type Query {
+    Fbis: [Fbi]
+    Fbi(title: String!): Fbi
+  }
 `;

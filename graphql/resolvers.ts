@@ -1,16 +1,24 @@
-import {FbiInterface} from "../mongoose/fbi/interface";
-import {db} from "./data";
-import { findByTitle, updateByTitle } from "../mongoose/fbi/services";
+import { fetchData } from './data';
 
 export const resolvers = {
   Query: {
-      Fbi: async (_: any, param: FbiInterface) => {
-          return [db.find((item) => item.title === param.title)];
+    Fbis: async () => {
+      try {
+        const data = await fetchData();
+        return data;
+      } catch (error) {
+        console.error(error);
+        return [];
       }
+    },
+    Fbi: async (_: any, { title }: { title: string }) => {
+      try {
+        const data = await fetchData();
+        return data.find((item) => item.title === title);
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    },
   },
-  Mutation: {
-      Fbi: async (_: any, param: {data: FbiInterface}) => {
-          return [db.find((item) => item.title === param.data.title)];
-      }
-  }
-}
+};
