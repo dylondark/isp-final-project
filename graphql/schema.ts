@@ -14,6 +14,7 @@ export const typeDefs = gql`
     images: [Image]
     reward_text: String
     aliases: [String]
+    url: String
   }
 
   type Image {
