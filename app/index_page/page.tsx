@@ -26,9 +26,9 @@ export default function IndexPage() {
         {/* Middle Button Centered */}
         <button
           className="px-6 py-3 mb-6 mx-auto bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg shadow-md hover:from-purple-600 hover:to-pink-600 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1"
-          onClick={() => handleNavigation("/index_page/top_names")}
+          onClick={() => handleNavigation("/index_page/statistics")}
         >
-          Top Names and Faces
+          statistics
         </button>
 
         {/* Third Button */}
