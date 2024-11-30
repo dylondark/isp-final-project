@@ -8,4 +8,8 @@ export declare interface FbiInterface {
     hair: string;
     weight: string;
     image: string;
+    reward_text: string;
+    aliases: string[];
+    caution: string;
+    details: string
 };

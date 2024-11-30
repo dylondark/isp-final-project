@@ -16,6 +16,7 @@ export const typeDefs = gql`
     aliases: [String]
     url: String
     caution: String
+    details: String
   }
 
   type Image {

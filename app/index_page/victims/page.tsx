@@ -3,9 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
-export default function CriminalPage() {
+export default function VictimPage() {
   const router = useRouter();
-  const [data, setData] = useState<{ title: string; description: string; images: { thumb: string }[]; caution: string }[]>([]);
+  const [data, setData] = useState<{ title: string; description: string; images: { thumb: string }[]; details: string }[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleBackClick = () => {
@@ -29,7 +29,7 @@ export default function CriminalPage() {
                   images {
                     thumb
                   }
-                  caution
+                  details
                 }
               }
             `,
@@ -46,10 +46,10 @@ export default function CriminalPage() {
           throw new Error(`GraphQL error: ${result.errors.map((error: any) => error.message).join(", ")}`);
         }
 
-        // Filter out entries whose image value contains 'missing-persons', 'kidnap', 'seeking-info', or 'unidentified-persons'
+        // Filter to include only entries whose image value contains 'missing-persons', 'kidnap', 'seeking-info', or 'unidentified-persons'
         const filteredData = result.data.Fbis.filter((item: { images: { thumb: string }[] }) => {
           const thumbUrl = item.images[0].thumb;
-          return !thumbUrl.includes('missing-persons') && !thumbUrl.includes('kidnap') && !thumbUrl.includes('seeking-info') && !thumbUrl.includes('unidentified-persons');
+          return thumbUrl.includes('missing-persons') || thumbUrl.includes('kidnap') || thumbUrl.includes('seeking-info') || thumbUrl.includes('unidentified-persons');
         });
 
         setData(filteredData);
@@ -75,8 +75,8 @@ export default function CriminalPage() {
     <div className="relative flex flex-col items-center justify-between min-h-screen p-8 text-black" onClick={handleNext}>
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/images/WorldBackground.jpg')", opacity: 0.5 }}></div>
       <div className="absolute inset-0 bg-black opacity-50"></div>
-      <h1 className="relative text-4xl text-white font-bold mb-8">FBI Most Wanted Criminals</h1>
-      <div className="relative flex-grow flex items-center justify-center w-full">
+      <h1 className="relative text-4xl text-white font-bold mb-8">FBI Most Wanted Victims</h1>
+      <div className="relative flex flex-grow w-full">
         <div className="flex-shrink-0 w-1/3">
           <img
             src={currentItem.images[0].thumb}
@@ -87,7 +87,7 @@ export default function CriminalPage() {
         <div className="ml-8 flex-grow">
           <h2 className="text-2xl text-white font-bold mb-4">{currentItem.title}</h2>
           <p className="text-white">{currentItem.description}</p>
-          <div className="text-white mt-4" dangerouslySetInnerHTML={{ __html: currentItem.caution }}></div>
+          <div className="text-white mt-4" dangerouslySetInnerHTML={{ __html: currentItem.details }}></div>
         </div>
       </div>
       <button

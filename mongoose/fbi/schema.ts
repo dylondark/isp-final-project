@@ -20,5 +20,8 @@ export const FbiSchema = new Schema({
   ],
   reward_text: String,
   aliases: [String],
+  url: String,
+  caution: String,
+  details: String,
   // Add other fields as needed
 });
