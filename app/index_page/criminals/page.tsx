@@ -3,40 +3,61 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
-export default function IndexPage() {
+export default function CriminalPage() {
   const router = useRouter();
   const [data, setData] = useState<{ title: string; description: string; images: { thumb: string }[] }[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleBackClick = () => {
-    router.push("/"); // Navigate back to the home page
+    router.push("/index_page"); // Navigate back to the home page
   };
 
   useEffect(() => {
-    fetch("/api/graphql", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-          query {
-            Fbis {
-              title
-              description
-              images {
-                thumb
+    async function fetchData() {
+      try {
+        const response = await fetch("/api/graphql", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: `
+              query {
+                Fbis {
+                  title
+                  description
+                  images {
+                    thumb
+                  }
+                }
               }
-            }
-          }
-        `,
-      }),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        setData(result.data.Fbis);
-      })
-      .catch((err) => console.error(err));
+            `,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.errors) {
+          throw new Error(`GraphQL error: ${result.errors.map((error: any) => error.message).join(", ")}`);
+        }
+
+        // Filter out entries whose image value contains 'missing-persons', 'kidnap', 'seeking-info', or 'unidentified-persons'
+        const filteredData = result.data.Fbis.filter((item: { images: { thumb: string }[] }) => {
+          const thumbUrl = item.images[0].thumb;
+          return !thumbUrl.includes('missing-persons') && !thumbUrl.includes('kidnap') && !thumbUrl.includes('seeking-info') && !thumbUrl.includes('unidentified-persons');
+        });
+
+        setData(filteredData);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+      }
+    }
+
+    fetchData();
   }, []);
 
   const handleNext = () => {
@@ -69,7 +90,7 @@ export default function IndexPage() {
         className="relative px-6 py-3 bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold rounded-lg shadow-md hover:from-green-600 hover:to-blue-600 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1"
         onClick={handleBackClick}
       >
-        Go Back to Home
+        Go Back to Index
       </button>
     </div>
   );
