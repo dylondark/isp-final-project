@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 export default function CriminalPage() {
   const router = useRouter();
-  const [data, setData] = useState<{ title: string; description: string; images: { thumb: string }[]; caution: string }[]>([]);
+  const [data, setData] = useState<{ title: string; description: string; images: { original: string }[]; caution: string }[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleBackClick = () => {
@@ -27,7 +27,7 @@ export default function CriminalPage() {
                   title
                   description
                   images {
-                    thumb
+                    original
                   }
                   caution
                 }
@@ -47,9 +47,9 @@ export default function CriminalPage() {
         }
 
         // Filter out entries whose image value contains 'missing-persons', 'kidnap', 'seeking-info', or 'unidentified-persons'
-        const filteredData = result.data.Fbis.filter((item: { images: { thumb: string }[] }) => {
-          const thumbUrl = item.images[0].thumb;
-          return !thumbUrl.includes('missing-persons') && !thumbUrl.includes('kidnap') && !thumbUrl.includes('seeking-info') && !thumbUrl.includes('unidentified-persons');
+        const filteredData = result.data.Fbis.filter((item: { images: { original: string }[] }) => {
+          const originalUrl = item.images[0].original;
+          return !originalUrl.includes('missing-persons') && !originalUrl.includes('kidnap') && !originalUrl.includes('seeking-info') && !originalUrl.includes('unidentified-persons');
         });
 
         setData(filteredData);
@@ -79,7 +79,7 @@ export default function CriminalPage() {
       <div className="relative flex-grow flex items-center justify-center w-full">
         <div className="flex-shrink-0 w-1/3">
           <img
-            src={currentItem.images[0].thumb}
+            src={currentItem.images[0].original}
             alt={currentItem.title}
             className="w-full h-auto rounded-lg shadow-lg mb-8"
           />

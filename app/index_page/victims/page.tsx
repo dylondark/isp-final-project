@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 export default function VictimPage() {
   const router = useRouter();
-  const [data, setData] = useState<{ title: string; description: string; images: { thumb: string }[]; details: string }[]>([]);
+  const [data, setData] = useState<{ title: string; description: string; images: { original: string }[]; details: string }[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleBackClick = () => {
@@ -27,7 +27,7 @@ export default function VictimPage() {
                   title
                   description
                   images {
-                    thumb
+                    original
                   }
                   details
                 }
@@ -47,9 +47,9 @@ export default function VictimPage() {
         }
 
         // Filter to include only entries whose image value contains 'missing-persons', 'kidnap', 'seeking-info', or 'unidentified-persons'
-        const filteredData = result.data.Fbis.filter((item: { images: { thumb: string }[] }) => {
-          const thumbUrl = item.images[0].thumb;
-          return thumbUrl.includes('missing-persons') || thumbUrl.includes('kidnap') || thumbUrl.includes('seeking-info') || thumbUrl.includes('unidentified-persons');
+        const filteredData = result.data.Fbis.filter((item: { images: { original: string }[] }) => {
+          const originalUrl = item.images[0].original;
+          return originalUrl.includes('missing-persons') || originalUrl.includes('kidnap') || originalUrl.includes('seeking-info') || originalUrl.includes('unidentified-persons');
         });
 
         setData(filteredData);
@@ -79,7 +79,7 @@ export default function VictimPage() {
       <div className="relative flex flex-grow w-full">
         <div className="flex-shrink-0 w-1/3">
           <img
-            src={currentItem.images[0].thumb}
+            src={currentItem.images[0].original}
             alt={currentItem.title}
             className="w-full h-auto rounded-lg shadow-lg mb-8"
           />
